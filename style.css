@@ -1,0 +1,308 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    color: #222;
+}
+
+.header {
+    background: #3157c8;
+    color: white;
+    padding: 25px 8%;
+}
+
+.header h1 {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.header p {
+    color: #e3eaff;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000d;
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.stat-card p {
+    font-size: 30px;
+    font-weight: bold;
+    color: #3157c8;
+}
+
+.form-section,
+.applications-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px #0000000d;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 21px;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+textarea {
+    grid-column: 1 / -1;
+    min-height: 75px;
+    resize: vertical;
+}
+
+.form-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    background: #3157c8;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    opacity: 0.88;
+}
+
+.cancel-btn {
+    background: #777;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.application-card {
+    border: 1px solid #e5e5e5;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+.application-card h3 {
+    color: #3157c8;
+    margin-bottom: 10px;
+    font-size: 19px;
+}
+
+.application-card p {
+    margin: 7px 0;
+    color: #555;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #e8edff;
+    color: #3157c8;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.edit-btn {
+    background: #16865c;
+}
+
+.delete-btn {
+    background: #d94343;
+}
+
+.empty-message {
+    text-align: center;
+    color: #777;
+    padding: 30px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    font-size: 13px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 700px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    form, .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .form-section, .applications-section {
+        padding: 18px;
+    }
+}
+.analytics-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.analytics-section h2 {
+    grid-column: 1 / -1;
+}
+
+.analytics-card {
+    background: #f4f6fb;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.analytics-card h3 {
+    font-size: 14px;
+    color: #666;
+}
+
+.analytics-card p {
+    font-size: 28px;
+    color: #3157c8;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+@media(max-width: 700px) {
+    .analytics-section {
+        grid-template-columns: 1fr;
+    }
+}
+/* Different colors for application status */
+
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status.applied {
+    background: #e3edff;
+    color: #2455b5;
+}
+
+.status.assessment {
+    background: #fff1cc;
+    color: #9a6700;
+}
+
+.status.interview {
+    background: #e5dcff;
+    color: #6841b5;
+}
+
+.status.offer {
+    background: #d9f5e5;
+    color: #16804a;
+}
+
+.status.rejected {
+    background: #ffe0e0;
+    color: #c62828;
+}
+/* Final UI Improvements */
+
+.application-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.application-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px #00000015;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #3157c8;
+    border-color: #3157c8;
+}
+
+button {
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.analytics-card {
+    text-align: center;
+}
+
+.analytics-card:hover {
+    background: #e8edff;
+}

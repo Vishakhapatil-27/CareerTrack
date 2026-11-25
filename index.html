@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerTrack - Job Application Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div>
+            <h1>CareerTrack</h1>
+            <p>Your Personal Job Application Tracker</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="dashboard">
+            <div class="stat-card">
+                <h3>Total Applications</h3>
+                <p id="totalCount">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Interviews</h3>
+                <p id="interviewCount">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Offers</h3>
+                <p id="offerCount">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Rejected</h3>
+                <p id="rejectedCount">0</p>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h2 id="formTitle">Add New Application</h2>
+
+            <form id="jobForm">
+
+                <input type="text" id="company"
+                    placeholder="Company Name" required>
+
+                <input type="text" id="role"
+                    placeholder="Job Role" required>
+
+                <input type="date" id="date" required>
+
+                <select id="status">
+                    <option value="Applied">Applied</option>
+                    <option value="Assessment">Assessment</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+
+                <textarea id="notes"
+                    placeholder="Notes (optional)"></textarea>
+
+                <div class="form-buttons">
+                    <button type="submit" id="submitButton">
+                        Add Application
+                    </button>
+
+                    <button type="button" id="cancelButton"
+                        class="cancel-btn" hidden>
+                        Cancel Edit
+                    </button>
+                </div>
+
+            </form>
+        </section>
+        
+        <section class="analytics-section">
+           <h2>Application Analytics</h2>
+
+        <div class="analytics-card">
+           <h3>Success Rate</h3>
+           <p id="successRate">0%</p>
+        </div>
+
+        <div class="analytics-card">
+           <h3>Pending Applications</h3>
+           <p id="pendingCount">0</p>
+        </div>
+
+        <div class="analytics-card">
+           <h3>Response Rate</h3>
+           <p id="responseRate">0%</p>
+        </div>
+        </section>
+
+        <section class="applications-section">
+
+            <h2>My Applications</h2>
+
+            <div class="filters">
+                <input type="text" id="searchInput"
+                    placeholder="Search company or job role">
+
+                <select id="filterStatus">
+                    <option value="All">All Statuses</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Assessment">Assessment</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+
+            <div id="applicationList"></div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>CareerTrack | Built with HTML, CSS and JavaScript</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
