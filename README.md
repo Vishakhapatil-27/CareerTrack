@@ -2,6 +2,10 @@
 
 CareerTrack is a full-stack web application that helps users manage and track their job applications in one place.
 
+## Project Screenshot
+
+![CareerTrack Dashboard](screenshots/careertrack-dashboard.png)
+
 ## Features
 
 - Add new job applications
