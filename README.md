@@ -4,7 +4,7 @@ CareerTrack is a full-stack web application that helps users manage and track th
 
 ## Project Screenshot
 
-![CareerTrack Dashboard](careertrack-dashboard.png)
+![CareerTrack Dashboard](Screenshot/careertrack-dashboard.png)
 
 ## Live Demo
 
