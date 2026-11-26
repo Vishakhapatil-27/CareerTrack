@@ -1,31 +1,185 @@
-
-const API_URL = "https://careertrack-backend-cwsz.onrender.com/api/applications";
+const API_URL = "http://localhost:5000/api/applications";
+const AUTH_URL = "http://localhost:5000/api/auth";
 
 const jobForm = document.getElementById("jobForm");
 const applicationList = document.getElementById("applicationList");
 const searchInput = document.getElementById("searchInput");
 const filterStatus = document.getElementById("filterStatus");
 
+const authSection = document.getElementById("authSection");
+const authName = document.getElementById("authName");
+const authEmail = document.getElementById("authEmail");
+const authPassword = document.getElementById("authPassword");
+const authMessage = document.getElementById("authMessage");
+
+const appSections = [
+    document.querySelector(".dashboard"),
+    document.querySelector(".form-section"),
+    document.querySelector(".analytics-section"),
+    document.querySelector(".applications-section")
+];
+
 let applications = [];
 let editingId = null;
+let token = localStorage.getItem("careertrack_token");
 
-// Load applications from MongoDB
-async function loadApplications() {
-    try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Failed to load applications");
+// Today's date
+document.getElementById("date").value =
+    new Date().toISOString().split("T")[0];
 
-        applications = await response.json();
+// Show login or dashboard
+function updateAuthUI() {
+    const loggedIn = Boolean(token);
+
+    authSection.hidden = loggedIn;
+
+    appSections.forEach(section => {
+        section.hidden = !loggedIn;
+    });
+
+    document.getElementById("logoutButton").hidden = !loggedIn;
+
+    if (!loggedIn) {
+        applications = [];
         renderApplications();
-    } catch (error) {
-        console.error(error);
-        alert("Unable to connect to backend. Please start the server.");
     }
 }
 
-// Set today's date
-document.getElementById("date").value =
-    new Date().toISOString().split("T")[0];
+// Add authorization token to API requests
+function authHeaders(extraHeaders = {}) {
+    return {
+        ...extraHeaders,
+        Authorization: `Bearer ${token}`
+    };
+}
+
+// Signup
+document.getElementById("registerButton").addEventListener("click", async () => {
+    const name = authName.value.trim();
+    const email = authEmail.value.trim().toLowerCase();
+    const password = authPassword.value;
+
+    if (!name || !email || password.length < 6) {
+        authMessage.textContent =
+            "Enter name, valid email and password (minimum 6 characters).";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${AUTH_URL}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Registration failed");
+        }
+
+        token = data.token;
+        localStorage.setItem("careertrack_token", token);
+
+        authPassword.value = "";
+        authMessage.textContent = "Registration successful!";
+
+        updateAuthUI();
+        await loadApplications();
+
+    } catch (error) {
+        authMessage.textContent = error.message;
+    }
+});
+
+// Login
+document.getElementById("loginButton").addEventListener("click", async () => {
+    const email = authEmail.value.trim().toLowerCase();
+    const password = authPassword.value;
+
+    if (!email || !password) {
+        authMessage.textContent = "Enter email and password.";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${AUTH_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Login failed");
+        }
+
+        token = data.token;
+        localStorage.setItem("careertrack_token", token);
+
+        authPassword.value = "";
+        authMessage.textContent = "Login successful!";
+
+        updateAuthUI();
+        await loadApplications();
+
+    } catch (error) {
+        authMessage.textContent = error.message;
+    }
+});
+
+// Logout
+document.getElementById("logoutButton").addEventListener("click", () => {
+    token = null;
+    localStorage.removeItem("careertrack_token");
+
+    applications = [];
+    editingId = null;
+
+    resetForm();
+    updateAuthUI();
+
+    authMessage.textContent = "You have logged out.";
+});
+
+// Handle expired or invalid login
+function handleAuthError() {
+    token = null;
+    localStorage.removeItem("careertrack_token");
+
+    applications = [];
+    updateAuthUI();
+
+    authMessage.textContent = "Session expired. Please login again.";
+}
+
+// Load applications
+async function loadApplications() {
+    if (!token) return;
+
+    try {
+        const response = await fetch(API_URL, {
+            headers: authHeaders()
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            handleAuthError();
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Failed to load applications");
+        }
+
+        applications = await response.json();
+        renderApplications();
+
+    } catch (error) {
+        console.error(error);
+        alert("Unable to connect to backend.");
+    }
+}
 
 // Add or update application
 jobForm.addEventListener("submit", async function(event) {
@@ -50,20 +204,30 @@ jobForm.addEventListener("submit", async function(event) {
         if (editingId !== null) {
             response = await fetch(`${API_URL}/${editingId}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: authHeaders({
+                    "Content-Type": "application/json"
+                }),
                 body: JSON.stringify(applicationData)
             });
         } else {
             response = await fetch(API_URL, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: authHeaders({
+                    "Content-Type": "application/json"
+                }),
                 body: JSON.stringify(applicationData)
             });
         }
 
-        if (!response.ok) throw new Error("Unable to save application");
+        if (response.status === 401 || response.status === 403) {
+            handleAuthError();
+            return;
+        }
 
-        editingId = null;
+        if (!response.ok) {
+            throw new Error("Unable to save application");
+        }
+
         await loadApplications();
         resetForm();
 
@@ -194,8 +358,14 @@ applicationList.addEventListener("click", async function(event) {
         if (confirm("Are you sure you want to delete this application?")) {
             try {
                 const response = await fetch(`${API_URL}/${id}`, {
-                    method: "DELETE"
+                    method: "DELETE",
+                    headers: authHeaders()
                 });
+
+                if (response.status === 401 || response.status === 403) {
+                    handleAuthError();
+                    return;
+                }
 
                 if (!response.ok) throw new Error("Delete failed");
 
@@ -255,5 +425,9 @@ function updateAnalytics() {
         total ? Math.round((responses / total) * 100) + "%" : "0%";
 }
 
-// Load data when page opens
-loadApplications();
+// Initialize application
+updateAuthUI();
+
+if (token) {
+    loadApplications();
+}

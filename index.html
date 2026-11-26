@@ -8,16 +8,60 @@
 </head>
 <body>
 
-    <header class="header">
-        <div>
-            <h1>CareerTrack</h1>
-            <p>Your Personal Job Application Tracker</p>
-        </div>
-    </header>
+<header class="header">
+    <div>
+        <h1>CareerTrack</h1>
+        <p>Your Personal Job Application Tracker</p>
+    </div>
+
+    <button type="button" id="logoutButton" hidden>
+        Logout
+    </button>
+</header>
+```
 
     <main class="container">
 
-        <section class="dashboard">
+<section class="auth-section" id="authSection">
+    <h2>Welcome to CareerTrack</h2>
+    <p>Create an account or login to continue</p>
+
+    <form id="authForm">
+        <input
+            type="text"
+            id="authName"
+            placeholder="Your Name"
+            required
+        >
+
+        <input
+            type="email"
+            id="authEmail"
+            placeholder="Email Address"
+            required
+        >
+
+        <input
+            type="password"
+            id="authPassword"
+            placeholder="Password (minimum 6 characters)"
+            minlength="6"
+            required
+        >
+
+        <button type="button" id="registerButton">
+            Sign Up
+        </button>
+
+        <button type="button" id="loginButton">
+            Login
+        </button>
+    </form>
+
+    <p id="authMessage"></p>
+    </section>
+
+            <section class="dashboard">
             <div class="stat-card">
                 <h3>Total Applications</h3>
                 <p id="totalCount">0</p>

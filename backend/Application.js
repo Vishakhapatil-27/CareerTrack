@@ -18,8 +18,13 @@ const applicationSchema = new mongoose.Schema({
         default: Date.now
     },
     notes: {
-        type: String,
-        default: ""
+    type: String,
+    default: ""
+    },
+    user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
     }
 });
 

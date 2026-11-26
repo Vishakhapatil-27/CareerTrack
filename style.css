@@ -306,3 +306,73 @@ button:hover {
 .analytics-card:hover {
     background: #e8edff;
 }
+
+/* Authentication Section */
+
+.auth-section {
+    background: white;
+    max-width: 450px;
+    margin: 35px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px #00000012;
+    text-align: center;
+}
+
+.auth-section h2 {
+    color: #3157c8;
+    margin-bottom: 10px;
+}
+
+.auth-section p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+#authForm {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+#authForm input,
+#authForm button {
+    width: 100%;
+}
+
+#authForm button {
+    padding: 13px;
+    font-weight: bold;
+}
+
+#logoutButton {
+    margin-top: 15px;
+    background: #d94343;
+    width: 100%;
+}
+
+#authMessage {
+    margin-top: 15px;
+    overflow-wrap: anywhere;
+}
+#logoutButton {
+    display: inline-block;
+    width: auto;
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 10px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logoutButton {
+    width: auto;
+    margin-left: auto;
+}
