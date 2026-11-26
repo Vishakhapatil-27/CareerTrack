@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:5000/api/applications";
-const AUTH_URL = "http://localhost:5000/api/auth";
+const API_URL = "https://careertrack-backend-cwsz.onrender.com/api/applications";
+const AUTH_URL = "https://careertrack-backend-cwsz.onrender.com/api/auth";
 
 const jobForm = document.getElementById("jobForm");
 const applicationList = document.getElementById("applicationList");
